@@ -1,0 +1,19 @@
+{% extends 'master.html' %}
+{% block body %}
+    <h2 class="user_title">{{ username }}'s wall</h2>
+    {% for post in wall_posts|reverse  %}
+        <div class="post">
+            {{ post[2] }}
+            <br>
+            by <a href="/user/{{ post[0] }}">{{ post[0] }}</a> on {{ post[1] }}
+        </div>
+    {% endfor %}
+    {% if session.get("user_id") %}
+        <form class="wall_post" action="/user/{{ username }}" method="POST">
+            <h3 class="wall_post-heading">Post to {{ username }}'s wall:</h3>
+            <textarea type="text" class="form-control" placeholder="Your wonderful thoughts" name="post_text"></textarea>
+            <input type="submit" id="btn-wall" class="btn btn-lg btn-primary btn-block" value="Submit">
+        </form>
+    {% endif %}
+
+{% endblock %}

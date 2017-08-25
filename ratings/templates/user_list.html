@@ -1,0 +1,8 @@
+{% extends 'master.html' %}
+{% block body %}
+        <h1> ratings!</h1>
+        {% for user in users %}
+        <h2>User {{user.id}}, age {{user.age}} has <a href="/users/{{user.id}}">{{user.ratings|length}}</a> ratings </h2>
+        {% endfor %}
+
+{% endblock %}

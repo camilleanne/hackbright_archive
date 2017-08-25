@@ -1,0 +1,20 @@
+{% extends 'master.html' %}
+{% block body %}
+    {% from "_formhelpers.html" import render_field %}
+
+    <form class="signin" action="/register" method="POST">
+        <h2 class="signin-heading" >Register a new account</h2>
+        {% for message in get_flashed_messages() %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        	{{ render_field(form.username, class="form-control" )}}
+        	{{ render_field(form.password, class="form-control" )}}
+        	{{ render_field(form.confirm, class="form-control" )}}
+
+
+<!--         <input type="text" class="form-control" placeholder="Username" name="username">
+        <input type="password" class="form-control" placeholder="Password" name="password">
+        <input type="password" class="form-control" placeholder="Password" name="password_verify"> -->
+        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
+    </form>
+{% endblock %}

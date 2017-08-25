@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Rating Machine</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+	<div id="register">
+        <form method="POST" action="/signup" role="form" >
+            <div class="form-group">
+            <label for="email" class="control-label">Email address</label>
+            <input type="email" class="form-control" placeholder="Enter email" name="email"> 
+            
+            <label for="password" class="control-label">Password</label>
+            <input type="password" class="form-control" placeholder="Password" name="password">
+           
+            <label for="age" class="control-label">Age</label>
+            <input type="age" class="form-control" placeholder="Age (optional)" name="age">
+            <label for="zipcode" class="control-label">Zipcode</label>
+            <input type="zipcode" class="form-control" placeholder="Zipcode (optional)" name="zipcode">
+            <br>
+            <button type="submit" class="btn btn-warning btn-sm">Submit</button>
+            </div>
+        </form>
+        <a href="/">Or, return to login page</a>
+    </div>
+</body>
+</html>

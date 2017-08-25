@@ -1,0 +1,26 @@
+.btn {
+    vertical-align: middle;
+    margin: 5px;
+}
+.form-control{
+    width: 175px;
+    margin: 5px;
+}
+
+body{
+	background-color: grey;
+	width: 800px;
+	margin:0 auto;
+
+}
+
+a {
+	color: gold;
+	margin: 3px;
+}
+
+#register {
+	width: 300px;
+	margin: 0 auto;
+	margin-top: 50px;
+}

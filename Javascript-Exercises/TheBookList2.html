@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body{
+            font-family: helvetica, sans-serif;
+            background-color: rgba(148, 170, 170, 0.5);
+            width: 800px;
+            margin: 0 auto;
+        }
+        h1{
+            font-size: 2.5em;
+            color: white;
+            background-color: rgba(148, 170, 180, 0.5);
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+        }
+        ul, li{
+            list-style-type: none;
+            font-size: 1.05em;
+        }
+        img{
+            width: 125px;
+            height: 200px;
+            vertical-align: middle;
+            margin: 10px 20px 10px 10px;
+        }
+        .true{
+            font-style: italic;
+        }
+        nav {
+            padding: 10px;
+        }
+        form{
+            padding: 8px;
+            margin: 10px;
+        }
+        button{
+            margin: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="myBooks">
+
+    </div>
+    <nav>
+        <a href="#form">Create a Book</a>
+    </nav>
+   <form id="createBook">
+     <a name="form">
+        <h3>Create a Book:</h3>
+        <label for="Title">Title: </label>
+        <input type="text" name="Title" id="Title">
+        <br>
+        <label for="Genre">Genre: </label>
+        <input type="text" name="Genre" id="Genre">
+        <br>
+        <label for="Author">Author: </label>
+        <input type="text" name="Author" id="Author">
+        <br>
+        <label for="imgURL">Image URL: </label>
+        <input type="text" name="imgURL" id="imgURL">
+        <br>
+        <input type="submit" value="Create" id="createButton">
+    
+    </a></form>
+
+    <script type="text/javascript">
+        var BookList = function(books){
+            this.booksRead = 0;
+            this.booksNotRead = 0;
+            this.lastBook;
+            this.bookShelf = books || [];
+            this.nextBook;
+            this.currentBook;
+
+            this.add = function(book) {
+                this.bookShelf.push(book);
+                if (book.read){
+                    if (!this.lastBook) {
+                        this.lastBook = book;
+                    } else if (this.lastBook.readDate < book.readDate) {
+                        this.lastBook = book;
+                    } 
+                    this.booksRead++;
+                } else if (!this.currentBook){
+                    this.currentBook = book;
+                    this.booksNotRead++;
+
+                } else {
+                    this.booksNotRead++;
+                }
+            }
+
+            this.setNextBook = function(){
+                for (var i=0; i<this.bookShelf.length; i++) {
+                    if (!this.bookShelf[i].read) {
+                        this.nextBook = this.bookShelf[i];
+                    }
+                }
+            }
+
+            this.finishCurrentBook = function(){
+                this.currentBook.read = true;
+                this.currentBook.readDate = Date(Date.now);
+                this.lastBook = this.currentBook;
+                this.currentBook = this.nextBook;
+                this.setNextBook();
+                this.booksRead++;
+                this.booksNotRead--;
+            }
+        }
+
+        var Book = function(title, author, genre, imgURL, read, readdate){
+            this.title = title || "No Title"; 
+            this.author = author || "No Author";
+            this.genre = genre || "Fiction";
+            this.read = read || false;
+            this.readDate = new Date(readdate);
+            this.imgURL = imgURL || null;
+        }
+
+        lordOfTheRings = new Book("Lord of the Rings", "J.R.R. Tolkien", "Fantasy", "http://lukemcg.com/wp-content/uploads/2013/05/The-Lord-of-the-Rings.jpg");
+        gameOfThrones = new Book("Game of Thrones", "George Martin", "Fantasy", "http://1.bp.blogspot.com/-RbitYU4m07g/TjJUeYHElLI/AAAAAAAAAko/tLa-LPHGI6k/s1600/A+Game+of+Thrones+-+Book+Cover.jpg");
+        wutheringHeights = new Book("Wuthering Heights", "Bronte", "Romance", "http://4.bp.blogspot.com/-RgQCnNgDLr4/T_054pBYXLI/AAAAAAAAABA/YbxtKgGvBeM/s200/Wuthering-Heights.jpg");
+        aliceInWonderland = new Book("Alice in Wonderland", "Lewis Carroll", "Romance", "http://blog.weddingpaperdivas.com/wp-content/uploads/2009/04/alice-in-wonderland.jpg", true, "2011, 10, 1");
+
+        var myBooks = new BookList()
+
+        var someBooks = [lordOfTheRings,gameOfThrones, wutheringHeights, aliceInWonderland]
+
+        //looping through this is more efficient/less shitty
+        for (var i = someBooks.length - 1; i >= 0; i--) {
+            myBooks.add(someBooks[i])
+        };
+        myBooks.setNextBook();
+
+
+    </script>
+
+     <script>
+
+        var form = document.getElementById("createBook");
+        var pageTitle = document.createElement('h1');
+        var titleText = document.createTextNode("My Book List");
+        pageTitle.appendChild(titleText);
+
+        document.body.insertBefore(pageTitle, form);
+        
+        var list = document.createElement('ul');
+
+        function addToBookList(book) {
+            var listItem = document.createElement('li');
+            listItem.className = book.read;
+            listItem.id = "book"+myBooks.bookShelf.indexOf(book)
+            
+            var bookInfo = book.title + " by "+ book.author;
+            
+            var pText = document.createTextNode(bookInfo);
+            
+            var readButton = document.createElement('button');
+            readButton.id = myBooks.bookShelf.indexOf(book);
+            readButton.innerHTML = "Mark as Read";
+            readButton.className = "readButton";
+            readButton.addEventListener('click', onReadClick);
+            // readButton.onClick = "return(this.id)"
+            
+            var imgTag = document.createElement('img');
+            imgTag.src = book.imgURL;
+            
+            listItem.appendChild(imgTag);
+            listItem.appendChild(pText);
+            listItem.appendChild(readButton);
+
+            list.appendChild(listItem)
+        }
+
+        for (var i=0; i<myBooks.bookShelf.length; i++) {
+            addToBookList(myBooks.bookShelf[i]);
+        }
+        document.body.insertBefore(list, form);
+
+        var createButton = document.getElementById('createButton');
+        function onCreateClick(event) {
+            var title = document.getElementById("title").value;
+            var genre = document.getElementById("genre").value;
+            var author = document.getElementById("author").value;
+            var imgURL = document.getElementById("imgURL").value;
+            book = new Book(title, author, genre, imgURL);
+            myBooks.add(book);
+            addToBookList(book);
+        }
+        createButton.addEventListener('click', onCreateClick);        
+ 
+        function onReadClick(event){
+            var id = event.target.id;
+            myBooks.finishCurrentBook(myBooks.bookShelf[id]);
+            var bookId = "book"+id
+            document.getElementById(bookId).setAttribute("class", "true");
+        };
+
+        </script>
+</body>
+</html>

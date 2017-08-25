@@ -1,0 +1,39 @@
+body {
+    background-color: #eee;
+}
+
+form.signin {
+    width: 330px;
+    margin: 50px auto;
+}
+
+form.signin input.form-control {
+    margin-bottom: 5px;
+}
+
+form.signin input.btn {
+    margin-top: 15px;
+}
+
+#btn-wall{
+	margin: 10px auto;
+	width: 200px;
+	float: right;
+}
+
+
+.post{
+	margin: 10px;
+	padding: 5px;
+	background-color: rgba(80, 150, 200, 0.25);
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px; /* future proofing */
+	-khtml-border-radius: 10px; /* for old Konqueror browsers */
+
+}
+
+#logout{
+	margin: 20px;
+	float:right;
+}

@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Rating Machine</title>
+         <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <header>   
+                {% if session.get("user_id") %}
+                    <a href="/clear">Logout</a> |
+                    <a href="{{url_for("view_user_ratings", user_id = session.get("user_id") )}}">Your Ratings</a> |
+                {% endif %}
+                <a href="{{url_for("view_all_users")}}">All Users</a>
+                | <a href="{{url_for("view_all_movies")}}">All Movies</a>
+            </header>
+
+            {% if not session.get("user_id") %}
+            <div id="login">
+                <form method="POST" action="/" role="form">
+                    <div class="form-group form-inline">
+                        <label for="email" class="control-label">Email address</label>
+                        <input type="email" class="form-control" placeholder="Enter email" name="email"> 
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" class="form-control" placeholder="Password" name="password">
+                        <button type="submit" class="btn btn-warning btn-sm">Submit</button>
+                        <a href="/signup">Or, register here</a>
+                   </div>
+                </form>
+            </div>
+            {% endif %}
+
+
+            <div id="search">
+                <form method="GET" action="/search" role="form">
+                    <div class="form-group form-inline">
+                        <label for="search">Search</label>
+                        <input type="text" class="form-control" placeholder="Search for a movie" name="search"> 
+                        <button type="submit" class="btn btn-warning btn-sm">Submit</button>
+                    </div>
+                </form>
+                {% for message in get_flashed_messages() %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
